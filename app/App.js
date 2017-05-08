@@ -2,45 +2,27 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {render} from 'react-dom';
 
-const contacts = [
-  {
-    name: "Cassio Zen",
-    email: "cassiozen@gmail.com"
-  }, {
-    name: "Dan Abramov",
-    email: "gaearon@somewhere.com"
-  }, {
-    name: "Pete Hunt",
-    email: "floydophone@somewhere.com"
-  }, {
-    name: "Paul O’Shannessy",
-    email: "zpao@somewhere.com"
-  }, {
-    name: "Ryan Florence",
-    email: "rpflorence@somewhere.com"
-  }, {
-    name: "Sebastian Markbage",
-    email: "sebmarkbage@here.com"
-  }, {
-    name: "12312Cassio Zen",
-    email: "cassi23ozen@gmail.com"
-  }, {
-    name: "232Dan Abramov",
-    email: "gaear23on@somewhere.com"
-  }, {
-    name: "23Pete12312 Hunt",
-    email: "floy23dophone@somewhere.com"
-  }, {
-    name: "232Paul O’Shannessy",
-    email: "zp23ao@somewhere.com"
-  }, {
-    name: "232Ryan Florence",
-    email: "rpf23lorence@somewhere.com"
-  }, {
-    name: "232Sebastian Markbage",
-    email: "se23bmarkbage@here.com"
+class ContactAppContainer extends Component {
+  constructor() {
+    super();
+    this.state = {
+      contacts: []
+    }
   }
-];
+
+  componentDidMount() {
+    fetch('./contacts.json')
+      .then((response) => response.json())
+      .then((responseData) => this.setState({contacts: responseData}))
+      .catch((error) => {
+        console.log('Error fetching contact-list', error);
+      });
+  }
+
+  render() {
+    return (<ContactApp contacts={this.state.contacts}/>);
+  }
+}
 
 class ContactApp extends Component {
   constructor() {
@@ -141,4 +123,4 @@ ContactItem.propTypes = {
 }
 
 render(
-  <ContactApp contacts={contacts}/>, document.getElementById('root'));
+  <ContactAppContainer/>, document.getElementById('root'));
